@@ -143,6 +143,95 @@ def plot_exact_match_curves(history: Dict, out_dir: str, filename: str = "exact_
     return path
 
 
+def plot_autoreg_metrics_curves(history: Dict, out_dir: str, filename: str = "autoreg_metrics.png"):
+    """
+    Plot autoregressive evaluation metrics: exact match, token accuracy, and edit distance.
+    These are the ground-truth metrics computed via true autoregressive generation.
+    """
+    has_autoreg = (history.get("autoreg_exact") or 
+                   history.get("autoreg_token_acc") or 
+                   history.get("autoreg_edit_dist"))
+    if not has_autoreg:
+        return None
+    
+    # Determine number of epochs from any available metric
+    n_epochs = len(history.get("autoreg_exact", []) or 
+                   history.get("autoreg_token_acc", []) or 
+                   history.get("autoreg_edit_dist", []))
+    if n_epochs == 0:
+        return None
+    
+    epochs = range(1, n_epochs + 1)
+    
+    fig, axes = plt.subplots(1, 3, figsize=(18, 5))
+    
+    # Panel 1: Autoregressive Exact Match
+    ax = axes[0]
+    if history.get("autoreg_exact"):
+        ax.plot(epochs, history["autoreg_exact"], 'o-', color='#4CAF50', 
+                linewidth=2.5, markersize=8, label='AR Exact Match')
+        # Add reference line for teacher-forced if available
+        if history.get("val_exact"):
+            ax.plot(epochs, history["val_exact"][:n_epochs], 's--', color='#9E9E9E', 
+                    linewidth=1.5, markersize=5, alpha=0.6, label='TF Exact Match')
+        ax.set_ylabel('Exact Match', fontsize=13)
+        ax.set_title('AR Exact Match (Ground Truth)', fontsize=14, fontweight='bold')
+        ax.legend(fontsize=10)
+        ax.set_ylim(0, 1.05)
+    else:
+        ax.text(0.5, 0.5, 'No data', ha='center', va='center', fontsize=12)
+    ax.set_xlabel('Epoch', fontsize=13)
+    ax.grid(True, alpha=0.3)
+    
+    # Panel 2: Autoregressive Token Accuracy
+    ax = axes[1]
+    if history.get("autoreg_token_acc"):
+        ax.plot(epochs, history["autoreg_token_acc"], '^-', color='#2196F3', 
+                linewidth=2.5, markersize=8, label='AR Token Accuracy')
+        # Add reference line for teacher-forced if available
+        if history.get("val_token_acc"):
+            ax.plot(epochs, history["val_token_acc"][:n_epochs], 's--', color='#9E9E9E', 
+                    linewidth=1.5, markersize=5, alpha=0.6, label='TF Token Accuracy')
+        ax.set_ylabel('Token Accuracy', fontsize=13)
+        ax.set_title('AR Token Accuracy', fontsize=14, fontweight='bold')
+        ax.legend(fontsize=10)
+        ax.set_ylim(0, 1.05)
+    else:
+        ax.text(0.5, 0.5, 'No data', ha='center', va='center', fontsize=12)
+    ax.set_xlabel('Epoch', fontsize=13)
+    ax.grid(True, alpha=0.3)
+    
+    # Panel 3: Autoregressive Edit Distance (lower is better)
+    ax = axes[2]
+    if history.get("autoreg_edit_dist"):
+        ax.plot(epochs, history["autoreg_edit_dist"], 'D-', color='#F44336', 
+                linewidth=2.5, markersize=8, label='AR Edit Distance')
+        ax.set_ylabel('Normalized Edit Distance', fontsize=13)
+        ax.set_title('AR Edit Distance (Lower = Better)', fontsize=14, fontweight='bold')
+        ax.legend(fontsize=10)
+        ax.set_ylim(0, 1.05)
+        # Mark the best (lowest) point
+        best_idx = np.argmin(history["autoreg_edit_dist"])
+        best_val = history["autoreg_edit_dist"][best_idx]
+        ax.annotate(f'Best: {best_val:.3f}', 
+                   xy=(best_idx + 1, best_val),
+                   xytext=(best_idx + 1 + 0.5, best_val + 0.1),
+                   fontsize=10, color='#F44336', fontweight='bold',
+                   arrowprops=dict(arrowstyle='->', color='#F44336'))
+    else:
+        ax.text(0.5, 0.5, 'No data', ha='center', va='center', fontsize=12)
+    ax.set_xlabel('Epoch', fontsize=13)
+    ax.grid(True, alpha=0.3)
+    
+    plt.suptitle('Autoregressive Evaluation Metrics (Ground Truth)', fontsize=16, fontweight='bold')
+    plt.tight_layout(rect=[0, 0, 1, 0.96])
+    
+    path = os.path.join(out_dir, filename)
+    plt.savefig(path, dpi=150, bbox_inches='tight')
+    plt.close()
+    return path
+
+
 def plot_learning_rate(history: Dict, out_dir: str, filename: str = "learning_rate.png"):
     """Plot learning rate schedule."""
     if not history.get("lr"):
@@ -518,6 +607,10 @@ def generate_all_training_plots(history: Dict, out_dir: str,
     if path: generated.append(path)
     
     path = plot_exact_match_curves(history, plot_dir)
+    if path: generated.append(path)
+    
+    # Autoregressive metrics plots (ground truth)
+    path = plot_autoreg_metrics_curves(history, plot_dir)
     if path: generated.append(path)
     
     path = plot_learning_rate(history, plot_dir)
