@@ -1405,9 +1405,9 @@ def main():
             history["task_accuracy"].append(task_accuracy)
             
             # Optional: Autoregressive evaluation (slower but more realistic)
-            # Run every 10 epochs or on the last epoch to save time
+            # Run only on the LAST epoch to save time
             autoreg_exact, autoreg_token_acc, autoreg_edit_dist, autoreg_task_acc = None, None, None, None
-            if args.autoreg_eval and (epoch % 10 == 0 or epoch == args.epochs):
+            if args.autoreg_eval and epoch == args.epochs:
                 print(f"  [AR Eval] Running autoregressive evaluation (epoch {epoch})...")
                 autoreg_exact, autoreg_token_acc, autoreg_edit_dist, autoreg_task_acc = evaluate_autoregressive(
                     model, val_loader, device, args, stoi, itos
