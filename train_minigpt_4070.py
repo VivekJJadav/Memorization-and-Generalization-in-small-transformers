@@ -867,9 +867,13 @@ def train_epoch(model, optimizer, scaler, scheduler, dataloader, device, epoch, 
             # Gradient clipping before optimizer step
             scaler.unscale_(optimizer)
             torch.nn.utils.clip_grad_norm_(model.parameters(), args.max_grad_norm)
+            # Get scale before step to detect if step was skipped
+            old_scale = scaler.get_scale()
             scaler.step(optimizer)
             scaler.update()
-            scheduler.step()  # Step scheduler per optimizer step for warmup
+            # Only step scheduler if optimizer step was not skipped (due to inf/nan grads)
+            if scaler.get_scale() >= old_scale:
+                scheduler.step()
             optimizer.zero_grad()
         
         # Track loss weighted by output tokens only
