@@ -512,8 +512,8 @@ def evaluate_ood_file(model, dataloader, device, stoi, itos, pad_id, vocab_size,
         with autocast('cuda'):
             logits = model(input_ids)
             loss = F.cross_entropy(
-                logits.view(-1, vocab_size), 
-                target_ids.view(-1), 
+                logits.reshape(-1, vocab_size), 
+                target_ids.reshape(-1), 
                 ignore_index=pad_id
             )
         
