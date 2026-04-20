@@ -1,0 +1,124 @@
+{
+  "checkpoint": "runs/dedup_50M/best_model.pth",
+  "train_data": "data/processed/train_dedup.pkl",
+  "eval_data": "data/processed/val.pkl",
+  "model_config": {
+    "data": "data/processed/train_dedup.pkl",
+    "tokenizer": "data/processed/tokenizer.json",
+    "out_dir": "runs/dedup_50M",
+    "val_data": "data/processed/val.pkl",
+    "epochs": 50,
+    "d_model": 512,
+    "n_heads": 8,
+    "n_layers": 16,
+    "d_ff": 2048,
+    "dropout": 0.1,
+    "max_len": 128,
+    "batch_size": 128,
+    "accumulation_steps": 1,
+    "lr": 0.0001,
+    "weight_decay": 0.01,
+    "use_checkpoint": false,
+    "save_every": 10,
+    "minimal_checkpoints": true,
+    "seed": 1337,
+    "patience": 50,
+    "min_delta": 0.001,
+    "profile_memory": false,
+    "show_samples": false,
+    "autoreg_eval": true,
+    "curriculum": false,
+    "curriculum_start": 20,
+    "curriculum_end": null,
+    "curriculum_epochs": 5,
+    "task_curriculum": false,
+    "task_curriculum_epochs": null,
+    "warmup_steps": 1000,
+    "max_grad_norm": 1.0,
+    "label_smoothing": 0.0,
+    "compute_memorization": false,
+    "memorization_samples": 200,
+    "use_swiglu": false,
+    "temperature": 1.0,
+    "top_p": 1.0,
+    "top_k": 0,
+    "resume": null,
+    "pad_id": 0,
+    "sep_token_id": 24,
+    "vocab_size": 77
+  },
+  "evaluation_mode": "autoregressive",
+  "overall_exact_match": 0.0,
+  "total_examples": 10000,
+  "bucket_accuracy": {
+    "unseen": 0.0,
+    "1x": 0.0,
+    "10x+": null
+  },
+  "bucket_avg_edit_distance": {
+    "unseen": 10.009799619716249,
+    "1x": 10.0,
+    "10x+": null
+  },
+  "bucket_counts": {
+    "1x": 3163,
+    "unseen": 6837,
+    "10x+": 0
+  },
+  "memorization_score": null,
+  "generalization_gap": null,
+  "bucket_samples": {
+    "1x": [
+      {
+        "raw": "[add] 65 + 1 | 66",
+        "frequency": 1,
+        "predicted": "666662222226",
+        "expected": "66",
+        "correct": false,
+        "edit_distance": 10
+      },
+      {
+        "raw": "[add] 9 + 5 | 14",
+        "frequency": 1,
+        "predicted": "144444004848",
+        "expected": "14",
+        "correct": false,
+        "edit_distance": 10
+      },
+      {
+        "raw": "[rel] <E0> created <E1>. <E1> created <E2>. <E2> created <E3>. <E3> created <E4>...",
+        "frequency": 1,
+        "predicted": "<E0>>>>>>>>>>>",
+        "expected": "<E0>",
+        "correct": false,
+        "edit_distance": 10
+      }
+    ],
+    "unseen": [
+      {
+        "raw": "[sort] 49 79 6 38 550 6 4 | 4 6 6 38 49 79 550",
+        "frequency": 0,
+        "predicted": "4 6 6 38 49 79 550 550 950 5",
+        "expected": "4 6 6 38 49 79 550",
+        "correct": false,
+        "edit_distance": 10
+      },
+      {
+        "raw": "[sort] 78 7 46 3 7 6 9 4 | 3 4 6 7 7 9 46 78",
+        "frequency": 0,
+        "predicted": "3 4 6 7 7 9 46 78 78 98 78 ",
+        "expected": "3 4 6 7 7 9 46 78",
+        "correct": false,
+        "edit_distance": 10
+      },
+      {
+        "raw": "[add] 41 + 465 | 506",
+        "frequency": 0,
+        "predicted": "506666206726 ",
+        "expected": "506",
+        "correct": false,
+        "edit_distance": 10
+      }
+    ]
+  }
+}
