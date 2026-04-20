@@ -397,7 +397,3 @@ If you find this work useful, please consider citing:
 ```
 
 ---
-
-<p align="center">
-  <em>Built with curiosity 🔍 and PyTorch 🔥</em>
-</p>
