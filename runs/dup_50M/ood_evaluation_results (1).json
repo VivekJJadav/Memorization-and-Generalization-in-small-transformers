@@ -1,0 +1,580 @@
+{
+  "checkpoint": "runs/duplicated_50M/best_model.pth",
+  "model_config": {
+    "data": "data/processed/train_duplicated.pkl",
+    "tokenizer": "data/processed/tokenizer.json",
+    "out_dir": "runs/duplicated_50M",
+    "val_data": "data/processed/val.pkl",
+    "epochs": 50,
+    "d_model": 512,
+    "n_heads": 8,
+    "n_layers": 16,
+    "d_ff": 2048,
+    "dropout": 0.1,
+    "max_len": 128,
+    "batch_size": 128,
+    "accumulation_steps": 1,
+    "lr": 0.0001,
+    "weight_decay": 0.01,
+    "use_checkpoint": false,
+    "save_every": 10,
+    "minimal_checkpoints": true,
+    "seed": 1337,
+    "patience": 50,
+    "min_delta": 0.001,
+    "profile_memory": false,
+    "show_samples": false,
+    "autoreg_eval": true,
+    "curriculum": false,
+    "curriculum_start": 20,
+    "curriculum_end": null,
+    "curriculum_epochs": 5,
+    "task_curriculum": false,
+    "task_curriculum_epochs": null,
+    "warmup_steps": 1000,
+    "max_grad_norm": 1.0,
+    "label_smoothing": 0.0,
+    "compute_memorization": false,
+    "memorization_samples": 200,
+    "use_swiglu": false,
+    "temperature": 1.0,
+    "top_p": 1.0,
+    "top_k": 0,
+    "resume": null,
+    "pad_id": 0,
+    "sep_token_id": 24,
+    "vocab_size": 77
+  },
+  "per_file_results": {
+    "ood_compositional.pkl": {
+      "loss": 32.57771872486994,
+      "exact_match": 0.0,
+      "partial_match": 0.019,
+      "total_examples": 1000,
+      "task_accuracy": {
+        "sort_then_reverse": 0.0,
+        "reverse_then_sort": 0.0,
+        "multi_add": 0.0,
+        "copy_then_sort": 0.0,
+        "nested_ops": 0.0
+      },
+      "samples": [
+        {
+          "raw": "[sort_then_reverse] 1 5 4 1 7 7 5 | 7 7 5 5 4 1 1",
+          "predicted": "[sort<unk>thEn<unk>rEvErsE]<0<3111 4 1 1 7 5 7 1 1 1 1 5",
+          "expected": "7 7 5 5 4 1 1",
+          "correct": false
+        },
+        {
+          "raw": "[sort_then_reverse] 5 2 2 2 6 3 | 6 5 3 2 2 2",
+          "predicted": "[sort<unk>thEn<unk>rEvErsE]<1915 5 513 6 3 2 2 2 2 5",
+          "expected": "6 5 3 2 2 2",
+          "correct": false
+        },
+        {
+          "raw": "[sort_then_reverse] 2 9 9 4 8 1 | 9 9 8 4 2 1",
+          "predicted": "[sort<unk>thEn<unk>rEvErsE]<9762 219E108 1 1 4 9 9 9",
+          "expected": "9 9 8 4 2 1",
+          "correct": false
+        },
+        {
+          "raw": "[sort_then_reverse] 5 1 2 2 9 | 9 5 2 2 1",
+          "predicted": "[sort<unk>thEn<unk>rEvErsE]<9905>5 1 2 2 2 2 1 5",
+          "expected": "9 5 2 2 1",
+          "correct": false
+        },
+        {
+          "raw": "[sort_then_reverse] 5 9 7 6 2 8 4 5 | 9 8 7 6 5 5 4 2",
+          "predicted": "yyyyyyyyyyyyyyyyyyrBy)r)rA>6rABA A 5 4 4 2 9 7 9 9",
+          "expected": "9 8 7 6 5 5 4 2",
+          "correct": false
+        }
+      ]
+    },
+    "ood_edge_cases.pkl": {
+      "loss": 32.10690781145358,
+      "exact_match": 0.0,
+      "partial_match": 0.27882960413080893,
+      "total_examples": 581,
+      "task_accuracy": {
+        "sorting_edge": 0.0,
+        "addition_edge": 0.0
+      },
+      "samples": [
+        {
+          "raw": "[sorting_edge] 0 | 0",
+          "predicted": "yyyyyyyyyydye]<>< 0",
+          "expected": "0",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_edge] 1 | 1",
+          "predicted": "yyyyyyyyyydye]<6< <",
+          "expected": "1",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_edge] 5 | 5",
+          "predicted": "yyyyyyyyyydye]<B8 6",
+          "expected": "5",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_edge] 5 | 5",
+          "predicted": "yyyyyyyyyydye]<B8 6",
+          "expected": "5",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_edge] 3 | 3",
+          "predicted": "yyyyyyyyyydye]<6< 5",
+          "expected": "3",
+          "correct": false
+        }
+      ]
+    },
+    "ood_extrap_add.pkl": {
+      "loss": 31.807947784423828,
+      "exact_match": 0.0,
+      "partial_match": 0.0,
+      "total_examples": 500,
+      "task_accuracy": {
+        "addition_extrap": 0.0
+      },
+      "samples": [
+        {
+          "raw": "[addition_extrap] 9070 + 1889 | 10959",
+          "predicted": "yaddition<unk>d<unk>trap]16>  109088 1 1979 ",
+          "expected": "10959",
+          "correct": false
+        },
+        {
+          "raw": "[addition_extrap] 8278 + 5284 | 13562",
+          "predicted": "yaddition<unk>d<unk>trap]169  10111  9 896  ",
+          "expected": "13562",
+          "correct": false
+        },
+        {
+          "raw": "[addition_extrap] 3363 + 5449 | 8812",
+          "predicted": "[addition<unk>d<unk>trap]17E  1+711  8 913 ",
+          "expected": "8812",
+          "correct": false
+        },
+        {
+          "raw": "[addition_extrap] 7508 + 3740 | 11248",
+          "predicted": "yaddition<unk>d<unk>trap]16   1+166  1 166  ",
+          "expected": "11248",
+          "correct": false
+        },
+        {
+          "raw": "[addition_extrap] 5824 + 4396 | 10220",
+          "predicted": "yaddition<unk>d<unk>trap]194  1+111  1 1114 ",
+          "expected": "10220",
+          "correct": false
+        }
+      ]
+    },
+    "ood_extrap_copy.pkl": {
+      "loss": 21.61771645833583,
+      "exact_match": 0.0,
+      "partial_match": 0.0,
+      "total_examples": 500,
+      "task_accuracy": {
+        "copying_extrap": 0.0
+      },
+      "samples": [
+        {
+          "raw": "[copying_extrap] XJGXKUPN | XJGXKUPNXJGXKUPNXJGXKUPNXJGXKUPNXJGXKUPNXJGXKUPNXJGXKUPN",
+          "predicted": "EEgEEPEXEEEKUPEEEEUKUPEXEE8KUPEXEE8KEPEXEE8KEP4EEE",
+          "expected": "XJGXKUPNXJGXKUPNXJGXKUPNXJGXKUPNXJGXKUPNXJGXKUPNXJ",
+          "correct": false
+        },
+        {
+          "raw": "[copying_extrap] THCGHI | THCGHITHCGHITHCGHITHCGHITHCGHITHCGHI",
+          "predicted": "trap]<EEEEEE1 1EEEEEEEEEETEEEEETEEEEITEEEEIIEEEEII",
+          "expected": "THCGHITHCGHITHCGHITHCGHITHCGHITHCGHI",
+          "correct": false
+        },
+        {
+          "raw": "[copying_extrap] MSMINIEFPR | MSMINIEFPRMSMINIEFPRMSMINIEFPRMSMINIEFPRMSMINIEFPR",
+          "predicted": "1EEEEE1MIIIEEEEIEIIEIEEEEMEIIEIEEIEIEIEIIIEIEIEIIE",
+          "expected": "MSMINIEFPRMSMINIEFPRMSMINIEFPRMSMINIEFPRMSMINIEFPR",
+          "correct": false
+        },
+        {
+          "raw": "[copying_extrap] XCYQUF | XCYQUFXCYQUFXCYQUFXCYQUFXCYQUFXCYQUFXCYQUF",
+          "predicted": "EE9EEE9 1EEEEEEEE9EEEEQQEEEEYQEEEEYQEEEEYQEEEEYQEE",
+          "expected": "XCYQUFXCYQUFXCYQUFXCYQUFXCYQUFXCYQUFXCYQUF",
+          "correct": false
+        },
+        {
+          "raw": "[copying_extrap] UAXSELEXGY | UAXSELEXGYUAXSELEXGYUAXSELEXGYUAXSELEXGYUAXSELEXGY",
+          "predicted": "<EEEEEE8EEEEEEYEEEEEEEEEE8EYEEEEEEE EAEEEEEEE E EE",
+          "expected": "UAXSELEXGYUAXSELEXGYUAXSELEXGYUAXSELEXGYUAXSELEXGY",
+          "correct": false
+        }
+      ]
+    },
+    "ood_extrap_rel.pkl": {
+      "loss": 24.239299072265624,
+      "exact_match": 0.0,
+      "partial_match": 0.0,
+      "total_examples": 500,
+      "task_accuracy": {
+        "relations_extrap": 0.0
+      },
+      "samples": [
+        {
+          "raw": "[relations_extrap] E4772 is parent of E3562. E3562 is parent of E2362. E2362 is parent of E3673. Who...",
+          "predicted": "E<of<052E5.<2ho<is<EEE<an>EsEor<><of<2>E3621 <0>33",
+          "expected": "E4772",
+          "correct": false
+        },
+        {
+          "raw": "[relations_extrap] E2438 is parent of E4549. E4549 is parent of E4793. E4793 is parent of E4856. E48...",
+          "predicted": "E<of<076>5.<Eho<is<Eh4<anEEstor<81of<286>5?1 <E>81",
+          "expected": "E2438",
+          "correct": false
+        },
+        {
+          "raw": "[relations_extrap] E3172 is parent of E3480. E3480 is parent of E4203. E4203 is parent of E3596. Who...",
+          "predicted": "E<of<04 44.<0ho<is<EEE<anEEstor<><of<0>E34?< <0>>3",
+          "expected": "E3172",
+          "correct": false
+        },
+        {
+          "raw": "[relations_extrap] E2248 is parent of E3678. E3678 is parent of E4775. E4775 is parent of E4739. E47...",
+          "predicted": "E<of<89  4.1Eho<is<Eh4<anEEstor<41of<893E4?1 <0 >3",
+          "expected": "E2248",
+          "correct": false
+        },
+        {
+          "raw": "[relations_extrap] E4174 is parent of E3519. E3519 is parent of E2325. E2325 is parent of E4641. E46...",
+          "predicted": "E<of<03469.<Eho<is<EE4<anEEstor<31of<46439?1 <0>>3",
+          "expected": "E4174",
+          "correct": false
+        }
+      ]
+    },
+    "ood_extrap_rev.pkl": {
+      "loss": 13.535915735911084,
+      "exact_match": 0.0,
+      "partial_match": 0.382,
+      "total_examples": 500,
+      "task_accuracy": {
+        "reversing_extrap": 0.0
+      },
+      "samples": [
+        {
+          "raw": "[reversing_extrap] 24 16 22 20 29 6 17 4 4 28 0 | 0 28 4 4 17 6 29 20 22 16 24",
+          "predicted": "14 21139360331 1914 2 0 28 4 4 17 2 29 20 22 16 24",
+          "expected": "0 28 4 4 17 6 29 20 22 16 24",
+          "correct": false
+        },
+        {
+          "raw": "[reversing_extrap] 4 15 16 21 26 7 18 16 10 0 26 14 26 16 3 | 3 16 26 14 26 0 10 16 18 7 26 21 16 15...",
+          "predicted": "16 25 161 3 16 26 14 26 0 10 16 18 7 26 41 16 26 7",
+          "expected": "3 16 26 14 26 0 10 16 18 7 26 21 16 15 4",
+          "correct": false
+        },
+        {
+          "raw": "[reversing_extrap] 12 30 21 29 27 7 19 17 7 14 0 29 12 | 12 29 0 14 7 17 19 7 27 29 21 30 12",
+          "predicted": "1 17 1 11 02 2 12 29 0 14 7 17 19 7 27 29 21 30 12",
+          "expected": "12 29 0 14 7 17 19 7 27 29 21 30 12",
+          "correct": false
+        },
+        {
+          "raw": "[reversing_extrap] 25 22 13 13 2 28 23 3 22 14 25 25 4 | 4 25 25 14 22 3 23 28 2 13 13 22 25",
+          "predicted": "3 33 15 25 252 4 25 25 14 22 3 23 28 2 13 13 25 25",
+          "expected": "4 25 25 14 22 3 23 28 2 13 13 22 25",
+          "correct": false
+        },
+        {
+          "raw": "[reversing_extrap] 16 25 30 12 7 4 13 15 6 30 | 30 6 15 13 4 7 12 30 25 16",
+          "predicted": "136626036131602303511 6 30 1 15 13 7 7 12 30 25 16",
+          "expected": "30 6 15 13 4 7 12 30 25 16",
+          "correct": false
+        }
+      ]
+    },
+    "ood_extrap_sort.pkl": {
+      "loss": 15.534533754870802,
+      "exact_match": 0.0,
+      "partial_match": 0.0,
+      "total_examples": 500,
+      "task_accuracy": {
+        "sorting_extrap": 0.0
+      },
+      "samples": [
+        {
+          "raw": "[sorting_extrap] 40 96 65 28 62 3 89 7 22 10 10 29 90 31 67 | 3 7 10 10 22 28 29 31 40 62 65 67 89 9...",
+          "predicted": "1  42 1 3 7 10 20 22 28 49 41 60 62 97 97 99 90 36",
+          "expected": "3 7 10 10 22 28 29 31 40 62 65 67 89 90 96",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_extrap] 54 47 53 64 9 38 44 66 53 63 4 3 | 3 4 9 38 44 47 53 53 54 63 64 66",
+          "predicted": "77854814 94 97585 3 4 5 38 44 54 53 64 64 66 66 97",
+          "expected": "3 4 9 38 44 47 53 53 54 63 64 66",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_extrap] 68 46 57 31 35 95 51 83 20 81 | 20 31 35 46 51 57 68 81 83 95",
+          "predicted": "67169711709669655369 <0 31 55 56 51 87 88 81 93 95",
+          "expected": "20 31 35 46 51 57 68 81 83 95",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_extrap] 35 91 5 72 72 95 22 2 12 61 | 2 5 12 22 35 61 72 72 91 95",
+          "predicted": "9961929911197799907397 1 5 12 22 75 71 72 92 95 95",
+          "expected": "2 5 12 22 35 61 72 72 91 95",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_extrap] 97 85 11 17 84 58 55 83 46 5 73 | 5 11 17 46 55 58 73 83 84 85 97",
+          "predicted": "97E9899519808888 8 1 11 47 56 55 88 83 84 94 95 97",
+          "expected": "5 11 17 46 55 58 73 83 84 85 97",
+          "correct": false
+        }
+      ]
+    },
+    "ood_interpolation.pkl": {
+      "loss": 30.323190615759188,
+      "exact_match": 0.0,
+      "partial_match": 0.6996996996996997,
+      "total_examples": 999,
+      "task_accuracy": {
+        "sorting_interp": 0.0,
+        "addition_interp": 0.0,
+        "reversing_interp": 0.0
+      },
+      "samples": [
+        {
+          "raw": "[sorting_interp] 1 6 8 5 6 1 5 | 1 1 5 5 6 6 8",
+          "predicted": "yyyyyyyyyyytyyyy<><92RABB 8 < 6 1 1 5 5 6 6 8",
+          "expected": "1 1 5 5 6 6 8",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_interp] 9 7 8 8 6 8 | 6 7 8 8 8 9",
+          "predicted": "[sort ng<unk>intErp]<111111EE17 1 6 7 8 8 8 9",
+          "expected": "6 7 8 8 8 9",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_interp] 2 8 4 2 1 9 | 1 2 2 4 8 9",
+          "predicted": "[sort ng<unk>intErp]<976111 70<63 1 2 2 4 8 9",
+          "expected": "1 2 2 4 8 9",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_interp] 1 9 8 4 | 1 4 8 9",
+          "predicted": "[sort ng<unk> ntErp]<9<32EE19 1 4 8 9",
+          "expected": "1 4 8 9",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_interp] 2 1 3 1 6 5 | 1 1 2 3 5 6",
+          "predicted": "[sort ng<unk>intErp]<970<6< 20202 1 1 2 3 5 6",
+          "expected": "1 1 2 3 5 6",
+          "correct": false
+        }
+      ]
+    },
+    "ood_novel_tasks.pkl": {
+      "loss": 33.37558552688573,
+      "exact_match": 0.0,
+      "partial_match": 0.15863453815261044,
+      "total_examples": 996,
+      "task_accuracy": {
+        "subtraction": 0.0,
+        "multiplication": 0.0,
+        "palindrome": 0.0,
+        "find_max": 0.0,
+        "deduplicate": 0.0,
+        "count": 0.0
+      },
+      "samples": [
+        {
+          "raw": "[subtraction] 186 - 183 | 3",
+          "predicted": "[yyytyaction]<>E 2-<86 < 1",
+          "expected": "3",
+          "correct": false
+        },
+        {
+          "raw": "[subtraction] 180 - 110 | 70",
+          "predicted": "yyyyyyacyyyyy<>E <-<8f < 61",
+          "expected": "70",
+          "correct": false
+        },
+        {
+          "raw": "[subtraction] 88 - 82 | 6",
+          "predicted": "[s<unk>btraEtion]<699-<8 9 1",
+          "expected": "6",
+          "correct": false
+        },
+        {
+          "raw": "[subtraction] 92 - 36 | 56",
+          "predicted": "[s<unk>btra>tion]<1>1-<669 32",
+          "expected": "56",
+          "correct": false
+        },
+        {
+          "raw": "[subtraction] 138 - 19 | 119",
+          "predicted": "yyyyyyacyyyyy<>> <-<38C 19 ",
+          "expected": "119",
+          "correct": false
+        }
+      ]
+    },
+    "ood_robustness.pkl": {
+      "loss": 33.86534119914609,
+      "exact_match": 0.0,
+      "partial_match": 0.336,
+      "total_examples": 500,
+      "task_accuracy": {
+        "sorting_robust": 0.0,
+        "addition_robust": 0.0,
+        "copying_robust": 0.0
+      },
+      "samples": [
+        {
+          "raw": "[sorting_robust] 5  4  0  1  2  5 | 0 1 2 4 5 5",
+          "predicted": "[sort ng<unk>rob<unk>st]<991155><<9<<>44 \" 0 1 2 2 4 5",
+          "expected": "0 1 2 4 5 5",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_robust] 0  1  7  2  3 | 0 1 2 3 7",
+          "predicted": "[sort ng<unk>rob<unk>st]<><<9<<992><<>7 0 1 2 3 7",
+          "expected": "0 1 2 3 7",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_robust] 0  1  0  0  0 | 0 0 0 0 1",
+          "predicted": "[sort ng<unk>rob<unk>st]<><<9<<><< 11 1 0 0 0 1 1",
+          "expected": "0 0 0 0 1",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_robust] 2  0  9  1  2 | 0 1 2 2 9",
+          "predicted": "[sort ng<unk>rob<unk>st]<9<<><<131><< 7 0 1 2 2 9",
+          "expected": "0 1 2 2 9",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_robust] 8  0  5  4  0  7 | 0 0 4 5 7 8",
+          "predicted": "[sort ng<unk>rob<unk>st]<EE1><<188188><< E 0 0 0 5 5 8",
+          "expected": "0 0 4 5 7 8",
+          "correct": false
+        }
+      ]
+    },
+    "ood_systematic.pkl": {
+      "loss": 26.945221812220705,
+      "exact_match": 0.0,
+      "partial_match": 0.1354723707664884,
+      "total_examples": 561,
+      "task_accuracy": {
+        "sorting_len8": 0.0,
+        "sorting_len10": 0.0,
+        "sorting_len12": 0.0,
+        "sorting_len15": 0.0,
+        "sorting_len20": 0.0,
+        "sorting_len25": 0.0,
+        "addition_range20": 0.0,
+        "addition_range50": 0.0,
+        "addition_range100": 0.0,
+        "addition_range500": 0.0,
+        "addition_range1000": 0.0,
+        "relations_depth2": 0.0,
+        "relations_depth3": 0.0,
+        "relations_depth4": 0.0,
+        "relations_depth5": 0.0,
+        "relations_depth7": 0.0,
+        "relations_depth10": 0.0
+      },
+      "samples": [
+        {
+          "raw": "[sorting_len8] 0 5 9 3 1 7 0 3 | 0 0 1 3 3 5 7 9",
+          "predicted": "yyyyyyyyyyyyyy<><BW6A1<><rA>n 5 0 0 1 3 3 5 7 9",
+          "expected": "0 0 1 3 3 5 7 9",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_len8] 6 6 5 2 4 8 9 2 | 2 2 4 5 6 6 8 9",
+          "predicted": "yyyyyyyyyyyyyy<8W8WB\"B6B.6A6A 5 2 2 4 5 6 6 8 9",
+          "expected": "2 2 4 5 6 6 8 9",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_len8] 0 6 3 7 6 9 7 3 | 0 3 3 6 6 7 7 9",
+          "predicted": "yyyyyyyyyyyyyy<><iW16rBiWBA A 6 0 3 3 6 6 7 7 9",
+          "expected": "0 3 3 6 6 7 7 9",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_len8] 4 6 5 1 3 1 3 0 | 0 1 1 3 3 4 5 6",
+          "predicted": "yyyyyyyyyyyyyy<BB8GBW6<U5 3 5>n 0 1 1 3 3 4 5 6",
+          "expected": "0 1 1 3 3 4 5 6",
+          "correct": false
+        },
+        {
+          "raw": "[sorting_len8] 2 0 8 3 7 4 9 3 | 0 2 3 3 4 7 8 9",
+          "predicted": "yyyyyyyyyyyyyy<B<><6A0<rBB<6A 7 0 2 3 3 4 7 8 9",
+          "expected": "0 2 3 3 4 7 8 9",
+          "correct": false
+        }
+      ]
+    }
+  },
+  "category_summary": {
+    "compositional": {
+      "total_examples": 1000,
+      "avg_loss": 32.57771872486994,
+      "exact_match": 0.0,
+      "partial_match": 0.019
+    },
+    "edge": {
+      "total_examples": 581,
+      "avg_loss": 32.10690781145358,
+      "exact_match": 0.0,
+      "partial_match": 0.27882960413080893
+    },
+    "extrapolation": {
+      "total_examples": 2500,
+      "avg_loss": 21.347082561161436,
+      "exact_match": 0.0,
+      "partial_match": 0.0764
+    },
+    "interpolation": {
+      "total_examples": 999,
+      "avg_loss": 30.323190615759188,
+      "exact_match": 0.0,
+      "partial_match": 0.6996996996996997
+    },
+    "novel": {
+      "total_examples": 996,
+      "avg_loss": 33.37558552688573,
+      "exact_match": 0.0,
+      "partial_match": 0.15863453815261044
+    },
+    "robustness": {
+      "total_examples": 500,
+      "avg_loss": 33.86534119914609,
+      "exact_match": 0.0,
+      "partial_match": 0.336
+    },
+    "systematic": {
+      "total_examples": 561,
+      "avg_loss": 26.945221812220705,
+      "exact_match": 0.0,
+      "partial_match": 0.1354723707664884
+    }
+  },
+  "overall": {
+    "total_examples": 7137,
+    "loss": 28.048680007339012,
+    "exact_match": 0.0
+  }
+}
